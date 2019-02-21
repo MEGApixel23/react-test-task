@@ -41,3 +41,16 @@ export const createInitialPlayersState = () => ([
   { firstName: 'John', lastName: 'Junge', score: 96 },
   { firstName: 'Rob', lastName: 'Vera', score: 88 }
 ]);
+
+export const populatePlayer = (player, data) => (
+  Object.keys(player)
+    .reduce((all, key) => ({
+      ...all,
+      [key]: {
+        ...player[key],
+        value: data[key],
+        isPristine: false,
+        isValid: true
+      }
+    }), {})
+);

@@ -14,6 +14,14 @@ export default function (state = [], action) {
           score: parseInt(action.payload.score)
         }
       ].sort(sortingFn);
+    case 'UPDATE_PLAYER_BY_INDEX':
+      const { index: playerIndex, player } = action.payload;
+
+      return [
+        ...state.slice(0, playerIndex),
+        player,
+        ...state.slice(playerIndex + 1)
+      ].sort(sortingFn);
     default:
       return state;
   }

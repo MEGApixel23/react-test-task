@@ -8,7 +8,8 @@ const createStoreWithMiddleware = applyMiddleware(promisesMiddleware)(createStor
 
 const store = createStoreWithMiddleware(reducer, {
   players: createInitialPlayersState(),
-  currentPlayer: createEmptyPlayer()
+  currentPlayer: createEmptyPlayer(),
+  editingPlayerIndex: null,
 });
 
 export default store;

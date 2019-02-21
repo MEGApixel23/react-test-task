@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateCurrentPlayerField, clearCurrentPlayer } from '../actions/currentPlayerActions';
-import { addPlayer } from '../actions/playersActions';
+import { addPlayer, updatePlayerByIndex } from '../actions/playersActions';
+import { disablePlayerEditing } from '../actions/editingPlayerIndexActions';
 
 class PlayerForm extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class PlayerForm extends Component {
     this.validation = {
       firstName: /^[A-Za-z- ]+$/,
       lastName: /^[A-Za-z- ]+$/,
-      score: (value) => value >= this.scoreProps.min && value <= this.scoreProps.max,
+      score: value => value >= this.scoreProps.min && value <= this.scoreProps.max,
     };
   }
 
@@ -49,7 +50,9 @@ class PlayerForm extends Component {
     return isValid;
   }
 
-  handleSubmit() {
+  handleSubmit(event) {
+    event.preventDefault();
+
     const player = Object.keys(this.props.currentPlayer)
       .reduce((all, key) => {
         const value = this.props.currentPlayer[key].value;
@@ -57,12 +60,36 @@ class PlayerForm extends Component {
         return { ...all, [key]: value };
       }, {});
 
-    this.props.addPlayer(player);
+    if (this.props.editingPlayerIndex === null) {
+      this.props.addPlayer(player);
+    } else {
+      this.props.updatePlayerByIndex({ player, index: this.props.editingPlayerIndex });
+      this.props.disablePlayerEditing();
+    }
+
     this.props.clearCurrentPlayer();
   }
 
   hasError(field) {
     return field.isValid === false && field.isPristine === false;
+  }
+
+  handleClear() {
+    if (this.props.editingPlayerIndex !== null) {
+      this.props.disablePlayerEditing();
+    }
+
+    this.props.clearCurrentPlayer();
+  }
+
+  renderSaveButton() {
+    const text = this.props.editingPlayerIndex === null ? 'Add' : 'Update';
+
+    if (this.isDataReady()) {
+      return <button>{ text }</button>;
+    }
+
+    return <button disabled>{ text }</button>;
   }
 
   render() {
@@ -100,7 +127,8 @@ class PlayerForm extends Component {
               Score must be integer between { this.scoreProps.min } and { this.scoreProps.max }
             </div> : '' }
         </div>
-        { ::this.isDataReady() ? <button>Save</button> : <button disabled>Save</button> }
+        { ::this.renderSaveButton() }
+        <button onClick={ ::this.handleClear } type="button">Cancel</button>
       </form>
     );
   }
@@ -109,6 +137,7 @@ class PlayerForm extends Component {
 export default connect(
   (state) => ({ ...state }),
   (dispatch) => bindActionCreators({
-    updateCurrentPlayerField, addPlayer, clearCurrentPlayer
+    updateCurrentPlayerField, addPlayer, clearCurrentPlayer,
+    updatePlayerByIndex, disablePlayerEditing
   }, dispatch)
 )(PlayerForm);

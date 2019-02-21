@@ -1,4 +1,4 @@
-import { createEmptyPlayer } from './../utils';
+import { createEmptyPlayer, populatePlayer } from './../utils';
 
 export default function (state = [], action) {
   switch (action.type) {
@@ -14,6 +14,8 @@ export default function (state = [], action) {
       };
     case 'CLEAR_CURRENT_PLAYER':
       return createEmptyPlayer();
+    case 'SET_CURRENT_PLAYER':
+      return populatePlayer(createEmptyPlayer(), action.payload);
     default:
       return state;
   }
