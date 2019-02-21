@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { changeCurrentPlayer, clearCurrentPlayer } from '../actions/currentPlayerActions';
+import { updateCurrentPlayerField, clearCurrentPlayer } from '../actions/currentPlayerActions';
 import { addPlayer } from '../actions/playersActions';
 
 class PlayerForm extends Component {
@@ -26,7 +26,7 @@ class PlayerForm extends Component {
       isValid = validator(value);
     }
 
-    this.props.changeCurrentPlayer({
+    this.props.updateCurrentPlayerField({
       field,
       payload: {
         isPristine: !value,
@@ -109,6 +109,6 @@ class PlayerForm extends Component {
 export default connect(
   (state) => ({ ...state }),
   (dispatch) => bindActionCreators({
-    changeCurrentPlayer, addPlayer, clearCurrentPlayer
+    updateCurrentPlayerField, addPlayer, clearCurrentPlayer
   }, dispatch)
 )(PlayerForm);

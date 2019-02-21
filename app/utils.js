@@ -35,3 +35,9 @@ export const createEmptyPlayer = () => ({
     isPristine: true,
   }
 });
+
+export const createInitialPlayersState = () => ([
+  { firstName: 'Alice', lastName: 'Geary', score: 96 },
+  { firstName: 'John', lastName: 'Junge', score: 96 },
+  { firstName: 'Rob', lastName: 'Vera', score: 88 }
+]);
