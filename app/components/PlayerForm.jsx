@@ -86,37 +86,40 @@ class PlayerForm extends Component {
     const text = this.props.editingPlayerIndex === null ? 'Add' : 'Update';
 
     if (this.isDataReady()) {
-      return <button>{ text }</button>;
+      return <button className="btn btn-primary btn-sm">{ text }</button>;
     }
 
-    return <button disabled>{ text }</button>;
+    return <button className="btn btn-primary btn-sm" disabled>{ text }</button>;
   }
 
   render() {
     return (
       <form onSubmit={ ::this.handleSubmit }>
-        <div>
+        <div className="form-group">
           <label>First name</label>
           <input
             type="text"
+            className="form-control"
             value={ this.props.currentPlayer.firstName.value }
             onChange={ event => ::this.handleChange('firstName', event) } />
           { ::this.hasError(this.props.currentPlayer.firstName) ?
             <div className="error">First name should contain letters only</div> : '' }
         </div>
-        <div>
+        <div className="form-group">
           <label>Last name</label>
           <input
             type="text"
+            className="form-control"
             value={ this.props.currentPlayer.lastName.value }
             onChange={ event => ::this.handleChange('lastName', event) } />
           { ::this.hasError(this.props.currentPlayer.lastName) ?
             <div className="error">Last name should contain letters only</div> : '' }
         </div>
-        <div>
+        <div className="form-group">
           <label>Score</label>
           <input
             type="number"
+            className="form-control"
             value={ this.props.currentPlayer.score.value }
             onChange={ event => ::this.handleChange('score', event) }
             min={ this.scoreProps.min }
@@ -127,8 +130,10 @@ class PlayerForm extends Component {
               Score must be integer between { this.scoreProps.min } and { this.scoreProps.max }
             </div> : '' }
         </div>
-        { ::this.renderSaveButton() }
-        <button onClick={ ::this.handleClear } type="button">Cancel</button>
+        <div className="form-group">
+          { ::this.renderSaveButton() }
+          <button onClick={ ::this.handleClear } type="button" className="btn btn-light ml-2 btn-sm">Cancel</button>
+        </div>
       </form>
     );
   }
