@@ -7,11 +7,14 @@ export const sortingFn = (a, b) => {
     return 1;
   }
 
-  if (a.lastName > b.lastName) {
+  const aLastName = a.lastName.toLowerCase();
+  const bLastName = b.lastName.toLowerCase();
+
+  if (aLastName > bLastName) {
     return 1;
   }
 
-  if (a.lastName < b.lastName) {
+  if (aLastName < bLastName) {
     return -1;
   }
 
