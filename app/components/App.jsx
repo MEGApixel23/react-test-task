@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { deletePlayerByIndex } from '../actions/playersActions';
+import PlayerForm from './PlayerForm';
 
 class App extends Component {
   deletePlayer(index) {
@@ -17,7 +18,7 @@ class App extends Component {
             <tr>
               <th>Name</th>
               <th>Score</th>
-              <th></th>
+              <th/>
             </tr>
           </thead>
           <tbody>
@@ -26,12 +27,13 @@ class App extends Component {
                 <td>{ lastName }, { firstName }</td>
                 <td>{ score }</td>
                 <td>
-                  <button onClick={() => this.deletePlayer(index)}>Delete</button>
+                  <button onClick={ () => this.deletePlayer(index) }>Delete</button>
                 </td>
               </tr>
             )) }
           </tbody>
         </table>
+        <PlayerForm/>
       </div>
     );
   }
